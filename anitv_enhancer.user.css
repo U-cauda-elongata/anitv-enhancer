@@ -1,0 +1,97 @@
+/* ==UserStyle==
+@name           Anitv Enhancer (style)
+@namespace      github.com/U-cauda-elongata
+@version        0.1.0
+@updateURL      https://github.com/U-cauda-elongata/anitv-enhancer/blob/master/anitv_enhancer.user.css
+@description    YouTube-like keyboard shortcuts and theater mode for Anitele.
+@license        CC-BY-NC-SA-4.0
+@license        GPL-3.0-only
+@author         Yu Onaga
+==/UserStyle== */
+
+@-moz-document
+url-prefix("https://ch.ani.tv/episodes/"),
+url-prefix("https://ch.ani.tv/channels/"),
+url-prefix("https://ch.ani.tv/live-broadcasts/")
+{
+    .user-uce-theater #main {
+        width: unset;
+        margin: 0;
+    }
+
+    .user-uce-theater nav {
+        position: absolute;
+        padding-top: 100vh;
+        z-index: unset;
+    }
+
+    .user-uce-theater #player-area {
+        width: 100vw;
+    }
+
+    @media screen and (min-width: 769px) {
+        .user-uce-theater #player-area {
+            margin-left: -220px;
+        }
+    }
+
+    .user-uce-theater #header-bar {
+        display: none;
+    }
+
+    .user-uce-theater #contents .content-main {
+        width: unset;
+        padding: unset;
+    }
+
+    .user-uce-theater #player-area .video-js, .user-uce-theater #player-ctrl #player-ctrl-block, .user-uce-theater #player-ctrl #player-ctrl-mask {
+        width: unset;
+        height: 100vh;
+    }
+
+    .user-uce-theater footer {
+        margin-left: 220px;
+        width: unset;
+    }
+
+    .user-uce-theater .back-to-top {
+        display: none;
+    }
+
+    .user-uce-theater #player-ctrl .player-ctrl-bottom {
+        padding-top: calc(100vh - 40px);
+    }
+
+
+    #player-ctrl-sound {
+        right: 131px;
+    }
+
+    #player-ctrl-continuous-play {
+        right: 70px;
+    }
+
+    #player-ctrl-full-screen, #player-ctrl-full-screen-off {
+        right: 40px;
+    }
+
+    .user-uce-theater-toggle {
+        stroke: #FFF;
+        bottom: 20px;
+        height: 18px;
+        right: 10px;
+        width: 18px;
+    }
+
+    .user-uce-theater-toggle:hover {
+        stroke: #E6E6E6;
+    }
+
+    .media-toggle-pc {
+        display: block !important;
+    }
+
+    .media-toggle-sp {
+        display: none !important;
+    }
+}
