@@ -2,7 +2,7 @@
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
 // @version      0.1.1
-// @updateURL    https://github.com/U-cauda-elongata/anitv-enhancer/blob/master/anitv_enhancer.user.js
+// @updateURL    https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
 // @license      CC-BY-NC-SA-4.0; https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
