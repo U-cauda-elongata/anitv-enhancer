@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
-// @version      0.1.0
+// @version      0.1.1
 // @updateURL    https://github.com/U-cauda-elongata/anitv-enhancer/blob/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
@@ -19,18 +19,27 @@
   }
 
   (function keyboardShortcuts() {
-    const player = document.getElementById('player-embed-videoid');
+    const FPS = 30; // This is just an assumption
+
     const play = document.getElementById('player-ctrl-play');
     const prev = document.getElementById('player-ctrl-prev-ep');
     const next = document.getElementById('player-ctrl-next-ep');
     const fullscreen = document.getElementById('player-ctrl-full-screen');
     const fullscreenOff = document.getElementById('player-ctrl-full-screen-off');
-    const pause = document.getElementById('player-ctrl-pause');
     const mute = document.getElementById('player-ctrl-sound-on');
     const unmute = document.getElementById('player-ctrl-sound-off');
-    const volumeBar = document.getElementById('player-ctrl-sound-prog');
 
-    document.addEventListener('keydown', e => {
+    const vjs = videojs('player-embed-videoid');
+
+    let playbackRate = 1;
+
+    function setPlaybackRate(r) {
+      vjs.playbackRate(playbackRate = Math.min(Math.max(r, 0.25), 2));
+    }
+
+    play.addEventListener('click', () => vjs.playbackRate(playbackRate));
+
+    vjs.ready(() => document.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT' || e.ctrlKey || e.metaKey) return;
 
       switch (e.key) {
@@ -39,11 +48,29 @@
           e.preventDefault();
           // fall-through
         case 'K': case 'k':
-          if (player.classList.contains('vjs-playing')) {
-            pause.click();
-          } else {
+          if (vjs.paused()) {
             play.click();
+          } else {
+            vjs.pause();
           }
+          break;
+        // Rewind 10 seconds
+        case 'J': case 'j':
+          vjs.currentTime(vjs.currentTime() - 10);
+          break;
+        // Rewind 2.5 seconds
+        case 'ArrowLeft':
+          e.preventDefault();
+          vjs.currentTime(vjs.currentTime() - 2.5);
+          break;
+        // Fast forward 10 seconds
+        case 'L': case 'l':
+          vjs.currentTime(vjs.currentTime() + 10);
+          break;
+        // Fast forward 10 seconds
+        case 'ArrowRight':
+          e.preventDefault();
+          vjs.currentTime(vjs.currentTime() + 2.5);
           break;
         // Previous video
         case 'P':
@@ -52,6 +79,30 @@
         // Next video
         case 'N':
           if (next.href !== '#') next.click();
+          break;
+        // Previous frame (while paused)
+        case ',':
+          if (vjs.paused()) {
+            vjs.currentTime((vjs.currentTime() * FPS - 1) / FPS);
+          }
+          break;
+        // Next frame (while paused)
+        case '.':
+          if (vjs.paused()) {
+            vjs.currentTime((vjs.currentTime() * FPS + 1) / FPS);
+          }
+          break;
+        // Decrease playback rate
+        case '<':
+          setPlaybackRate(playbackRate - 0.25);
+          break;
+        // Increase playback rate
+        case '>':
+          setPlaybackRate(playbackRate + 0.25);
+          break;
+        // Seek to specific point in the video (7 advances to 70% of duration)
+        case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+          vjs.currentTime(vjs.duration() * e.key / 10);
           break;
         // Toggle full screen
         case 'F': case 'f':
@@ -67,14 +118,15 @@
           break;
         // Toggle mute
         case 'M': case 'm':
-          if (volumeBar.style.width === '0px') {
+          if (vjs.muted()) {
             unmute.click();
           } else {
             mute.click();
           }
           break;
-      }
-    });
+        }
+      })
+    );
   })();
 
   (function theaterModeButton() {
