@@ -1,8 +1,8 @@
 /* ==UserStyle==
 @name           Anitv Enhancer (style)
 @namespace      github.com/U-cauda-elongata
-@version        0.1.0
-@updateURL      https://github.com/U-cauda-elongata/anitv-enhancer/blob/master/anitv_enhancer.user.css
+@version        0.2.0
+@updateURL      https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.css
 @description    YouTube-like keyboard shortcuts and theater mode for Anitele.
 @license        CC-BY-NC-SA-4.0
 @license        GPL-3.0-only
@@ -85,6 +85,10 @@ url-prefix("https://ch.ani.tv/live-broadcasts/")
 
     .user-uce-theater-toggle:hover {
         stroke: #E6E6E6;
+    }
+
+    .user-uce-episodes-container {
+        overflow: auto;
     }
 
     .media-toggle-pc {

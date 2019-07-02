@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
-// @version      0.1.1
+// @version      0.2.0
 // @updateURL    https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
@@ -17,6 +17,47 @@
   function toggleTheater() {
     document.body.classList.toggle('user-uce-theater');
   }
+
+  (function episodesList() {
+    if (!location.pathname.startsWith('/episodes')) return;
+
+    document.querySelector('#episode-detail > .movie-content-note').insertAdjacentHTML(
+      'afterend',
+      '<div class="user-uce-episodes-container"><div id="user-uce-episodes"></div></div>'
+    );
+    const title = document.querySelector('#episode-detail .bc-block > a:nth-of-type(2)');
+
+    fetch('/api/v1' + title.pathname, {
+      headers: new Headers({'User-Agent': 'anitv iosapp 999'})
+    })
+      .then(res => res.json())
+      .then(json => {
+        const CONTENT_CELL_WIDTH = 460;
+        const episodes = json.episodes;
+
+        const div = document.getElementById('user-uce-episodes');
+        div.style.width = `${CONTENT_CELL_WIDTH * episodes.length}px`;
+        div.style.color = json.text_color;
+
+        episodes.forEach((e, i) => {
+          if (String(e.id) === location.pathname.match(/^\/episodes\/(\d+)/)[1]) {
+            const container = div.parentElement;
+            container.scrollLeft = (CONTENT_CELL_WIDTH * ((episodes.length - i) * 2 - 1) - container.offsetWidth) / 2;
+          }
+
+          div.insertAdjacentHTML('afterbegin', `\
+<a class="content-cell-common content-cell content-table episode-ccc" href="/episodes/${e.id}">\
+<div class="ccc-image content-tc"><img src="${e.thumbnail_url}"><div class="ccc-play"></div></div>\
+<div class="ccc-text content-tc">\
+<ul class="guide cfx"><li></li></ul>\
+<div class="ccc-text-bl2 ellipsis2">${e.name}</div>\
+<div class="ccc-text-sl1">${e.episode_display_num}</div>\
+</div>\
+</a>`
+          );
+        });
+      });
+  })();
 
   (function keyboardShortcuts() {
     const FPS = 30; // This is just an assumption
