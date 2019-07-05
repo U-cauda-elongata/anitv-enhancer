@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
-// @version      0.2.0
+// @version      0.2.1
 // @updateURL    https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
@@ -42,10 +42,10 @@
         episodes.forEach((e, i) => {
           if (String(e.id) === location.pathname.match(/^\/episodes\/(\d+)/)[1]) {
             const container = div.parentElement;
-            container.scrollLeft = (CONTENT_CELL_WIDTH * ((episodes.length - i) * 2 - 1) - container.offsetWidth) / 2;
+            container.scrollLeft = (CONTENT_CELL_WIDTH * (i * 2 + 1) - container.offsetWidth) / 2;
           }
 
-          div.insertAdjacentHTML('afterbegin', `\
+          div.insertAdjacentHTML('beforeend', `\
 <a class="content-cell-common content-cell content-table episode-ccc" href="/episodes/${e.id}">\
 <div class="ccc-image content-tc"><img src="${e.thumbnail_url}"><div class="ccc-play"></div></div>\
 <div class="ccc-text content-tc">\
