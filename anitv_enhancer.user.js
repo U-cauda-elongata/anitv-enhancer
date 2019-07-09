@@ -108,7 +108,7 @@
         case 'L': case 'l':
           vjs.currentTime(vjs.currentTime() + 10);
           break;
-        // Fast forward 10 seconds
+        // Fast forward 2.5 seconds
         case 'ArrowRight':
           e.preventDefault();
           vjs.currentTime(vjs.currentTime() + 2.5);
