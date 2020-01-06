@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
-// @version      0.2.1
+// @version      0.2.2
 // @updateURL    https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
@@ -78,7 +78,7 @@
       vjs.playbackRate(playbackRate = Math.min(Math.max(r, 0.25), 2));
     }
 
-    play.addEventListener('click', () => vjs.playbackRate(playbackRate));
+    if (play) play.addEventListener('click', () => vjs.playbackRate(playbackRate));
 
     vjs.ready(() => document.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT' || e.ctrlKey || e.metaKey) return;
@@ -90,7 +90,11 @@
           // fall-through
         case 'K': case 'k':
           if (vjs.paused()) {
-            play.click();
+            if (play) {
+              play.click();
+            } else {
+              vjs.play();
+            }
           } else {
             vjs.pause();
           }
