@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
-// @version      0.2.2
+// @version      0.2.3
 // @updateURL    https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
@@ -177,7 +177,7 @@
   (function theaterModeButton() {
     const b = document.createElement('button');
     b.classList.add('user-uce-theater-toggle');
-    b.innerHTML = '<svg><rect fill="none" stroke-width="2" x="1" y="1" width="16" height="16" /></svg>';
+    b.innerHTML = '<svg viewBox="0 0 18 18"><rect fill="none" stroke-width="2" x="1" y="1" width="16" height="16" /></svg>';
     b.addEventListener('click', e => {
       e.stopPropagation();
       toggleTheater();
