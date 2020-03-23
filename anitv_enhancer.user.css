@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           Anitv Enhancer (style)
 @namespace      github.com/U-cauda-elongata
-@version        0.2.1
+@version        0.2.2
 @updateURL      https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.css
 @description    YouTube-like keyboard shortcuts and theater mode for Anitele.
 @license        CC-BY-NC-SA-4.0
@@ -98,7 +98,11 @@ url-prefix("https://ch.ani.tv/live-broadcasts/")
     .media-toggle-sp {
         display: none !important;
     }
+}
 
+@-moz-document
+domain("ch.ani.tv")
+{
     footer {
         margin-left: 218px;
         width: unset;
