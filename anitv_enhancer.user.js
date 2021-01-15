@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Anitv Enhancer (script)
 // @namespace    https://github.com/U-cauda-elongata
-// @version      0.2.3
+// @version      0.2.4
 // @updateURL    https://raw.githubusercontent.com/U-cauda-elongata/anitv-enhancer/master/anitv_enhancer.user.js
 // @description  YouTube-like keyboard shortcuts and theater mode for Anitele.
 // @author       Yu Onaga
@@ -21,6 +21,8 @@
   (function episodesList() {
     if (!location.pathname.startsWith('/episodes')) return;
 
+    const episodeId = Number.parseInt(location.pathname.match(/^\/episodes\/(\d+)/)[1], 10);
+
     document.querySelector('#episode-detail > .movie-content-note').insertAdjacentHTML(
       'afterend',
       '<div class="user-uce-episodes-container"><div id="user-uce-episodes"></div></div>'
@@ -32,19 +34,12 @@
     })
       .then(res => res.json())
       .then(json => {
-        const CONTENT_CELL_WIDTH = 460;
         const episodes = json.episodes;
 
         const div = document.getElementById('user-uce-episodes');
-        div.style.width = `${CONTENT_CELL_WIDTH * episodes.length}px`;
         div.style.color = json.text_color;
 
-        episodes.forEach((e, i) => {
-          if (String(e.id) === location.pathname.match(/^\/episodes\/(\d+)/)[1]) {
-            const container = div.parentElement;
-            container.scrollLeft = (CONTENT_CELL_WIDTH * (i * 2 + 1) - container.offsetWidth) / 2;
-          }
-
+        episodes.forEach(e => {
           div.insertAdjacentHTML('beforeend', `\
 <a class="content-cell-common content-cell content-table episode-ccc" href="/episodes/${e.id}">\
 <div class="ccc-image content-tc"><img src="${e.thumbnail_url}"><div class="ccc-play"></div></div>\
@@ -56,6 +51,15 @@
 </a>`
           );
         });
+
+        const i = episodes.findIndex(e => e.id === episodeId);
+        if (i !== -1) {
+          const cellWidth = div.firstChild.scrollWidth;
+          div.style.width = `${cellWidth * episodes.length}px`;
+          const container = div.parentElement;
+          // Move the current episode to the center.
+          container.scrollLeft = (cellWidth * (i * 2 + 1) - container.offsetWidth) / 2;
+        }
       });
   })();
 
